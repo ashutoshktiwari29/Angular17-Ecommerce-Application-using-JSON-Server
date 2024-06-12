@@ -18,6 +18,8 @@ export class SigninSignupComponent {
   regForm:boolean = false;
   signUpfrom!:FormGroup;
   signInfrom!:FormGroup;
+  normalUserfrom!:FormGroup;
+  merchantUserForm!:FormGroup;
   signUpsubmitted = false;
   href:string ='';
   user_data:any;
@@ -35,6 +37,25 @@ export class SigninSignupComponent {
     }else if(this.href =='/sign-in'){
       this.regForm = false;
     }
+
+    this.normalUserfrom=this.formBuilder.group({
+      userName: [''],
+      type: ['User'],
+      email: [''],
+      password: [''],
+      mobile: [''],
+    });
+
+    this.merchantUserForm=this.formBuilder.group({
+      merchant_name: [''],
+      userName: [''],
+      type: ['Merchant'],
+      email: [''],
+      mobile: [''],
+      password: [''],
+    });
+
+
 
     this.signUpfrom = this.formBuilder.group({
       name: ['', Validators.required],
@@ -56,6 +77,53 @@ export class SigninSignupComponent {
       role: ['', Validators.required],
     });
   }
+
+  normaluser=true;
+  merchantUser=false;
+  normalUser(type:any){
+    if(type=='normal'){
+      this.normaluser=true;
+      this.merchantUser=false;
+    }else{
+      this.normaluser=false;
+      this.merchantUser=true;
+    }
+  }
+
+
+  onMerchantUser(){
+   var obj={"merchant_name":this.merchantUserForm.value.merchant_name,
+            "user":{ "userName":this.merchantUserForm.value.userName,
+                     "type":this.merchantUserForm.value.type,
+                     "email": this.merchantUserForm.value.email,
+                     "mobile":this.merchantUserForm.value.mobile,
+                     "password":this.merchantUserForm.value.password}}
+
+   this.loginService.merchantRegister(obj).subscribe(data=>{
+    this.router.navigateByUrl("/sign-in")
+    alert('Save sucessfully')
+
+   }, error=>{
+    console.log("My error", error)
+  })
+  }
+
+  onSubmitNormalUser(){
+    var obj=  { 
+               "type":this.normalUserfrom.value.type,
+               "userName":this.normalUserfrom.value.userName,
+               "email":this.normalUserfrom.value.email,
+               "password":this.normalUserfrom.value.password,
+               "mobile":this.normalUserfrom.value.mobile}
+
+   this.loginService.normalUserRegister(obj).subscribe(data=>{
+    this.router.navigateByUrl("/sign-in")
+    alert('Save sucessfully')
+   }, error=>{
+    console.log("My error", error)
+  })
+  }
+
   get rf() {
     return this.signUpfrom.controls;
     }
@@ -96,20 +164,26 @@ export class SigninSignupComponent {
     onSubmitSignIn(){
       this.loginService.authLogin(this.signInFormValue.userEmail, this.signInFormValue.userPassword).subscribe(data=>{
         this.user_data = data;
-        if(this.user_data.length ==1){
-          if(this.user_data[0].role =="seller"){
-            sessionStorage.setItem("user_session_id", this.user_data[0].id);
-            sessionStorage.setItem("role", this.user_data[0].role);
-            this.router.navigateByUrl('/seller-dashboard');
-          }else if(this.user_data[0].role =="buyer"){
-            sessionStorage.setItem("user_session_id", this.user_data[0].id);
-            sessionStorage.setItem("role", this.user_data[0].role);
-            this.router.navigateByUrl('/buyer-dashboard');
-          }else{
-            alert("Invalid login details");
+
+ 
+        if(this.user_data){
+          if(this.user_data.type.toUpperCase() =="admin".toUpperCase()){
+            // sessionStorage.setItem('use')
+            sessionStorage.setItem("user_session_id", this.user_data.id);
+            sessionStorage.setItem("role", this.user_data.type);
+            this.router.navigateByUrl('/admin-dashboard');
+          }else if(this.user_data.type.toUpperCase() =="merchant".toUpperCase()){
+            sessionStorage.setItem("user_session_id", this.user_data.id);
+            sessionStorage.setItem("role", this.user_data.type);
+            sessionStorage.setItem("merchant_id",this.user_data.merchant.merchant_id)
+            this.router.navigateByUrl('/user');
+          }else if(this.user_data.type.toUpperCase() =="user".toUpperCase()){
+            sessionStorage.setItem("user_session_id", this.user_data.id);
+            sessionStorage.setItem("role", this.user_data.type);
+            this.router.navigateByUrl('/user');
           }
         }else{
-          alert("Invalid")
+          alert("Invalid User details")
         }
         console.log(this.user_data)
       }, error=>{

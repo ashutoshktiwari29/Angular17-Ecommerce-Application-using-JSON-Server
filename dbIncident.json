@@ -1,0 +1,23 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  
+  "user":[{ "id":101,"type":"admin","userName":"ashu29","email":"ashu29@gmail.com","password":"admin@ashu","mobile":"7543057402"},
+  { "id":102,"type":"merchant","userName":"jio","email":"jio@gmail.com","password":"merchant@ashu","mobile":"7543057401"},
+  { "id":103,"type":"user","userName":"amit","email":"amit@gmail.com","password":"user@ashu","mobile":"7543057403"}]
+}

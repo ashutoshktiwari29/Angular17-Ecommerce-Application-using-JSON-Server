@@ -29,7 +29,7 @@ export class AdminLoginComponent implements OnInit{
         sessionStorage.setItem("role", this.user_data[0].role);
         this.router.navigateByUrl('/admin-dashboard');
       }else{
-        alert("Invailid Response")
+        // alert("Invailid Response")
       }
       console.log(this.user_data);
     },error=>{

@@ -19,3 +19,24 @@
     }
   }
 }
+
+table, th, td {
+  border:1px solid black;
+}
+
+
+.adduser{
+  font-size: 15px;
+  font-weight: 700;
+  color: blue;
+  text-decoration: underline;
+  text-align: end;
+}
+
+.header{
+  font-weight: 500;
+  font-size: 2rem;
+  width: 100%;
+    justify-content: center;
+    align-items: center;  
+}

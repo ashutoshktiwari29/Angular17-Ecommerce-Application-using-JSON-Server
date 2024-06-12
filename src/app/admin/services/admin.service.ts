@@ -6,15 +6,16 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AdminService {
-  public user_url = "http://localhost:3000/user/";
-  public product_url = "http://localhost:3000/products/";
-  public all_user = "http://localhost:3000/user";
+  public user_url = "http://localhost:8080/user/";
+  public product_url = "http://localhost:8080/products/";
+  public all_user = "http://localhost:8080/user";
 
   constructor(private apiService:ApiService) { }
 
   userDashboardData(){
     return this.apiService.get(this.user_url);
   }
+
   productDashboardData(){
     return this.apiService.get(this.product_url);
   }

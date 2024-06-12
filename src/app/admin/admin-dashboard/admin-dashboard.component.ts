@@ -27,50 +27,73 @@ export class AdminDashboardComponent implements OnInit {
   constructor(private router: Router, private adminService: AdminService) { }
 
   ngOnInit(): void {
-    this.adminProductDashboard();
-    this.adminUserDashboardData()
+
+
+
+    // this.adminProductDashboard();
+     this.adminUserDashboardData()
   }
+
+  
+
+
   userDashboard() {
     this.router.navigateByUrl("/admin/user");
   }
   productDashboard() {
     this.router.navigateByUrl("/admin/product")
   }
+
+  totalUser:any
+  totalMerchantUser:any;
+  totalNormalUser:any;
   adminUserDashboardData() {
     this.adminService.userDashboardData().subscribe(data => {
-      this.user_dashboard_data = data;
-      console.log(this.user_dashboard_data)
-      for (let user in this.user_dashboard_data) {
-        if (this.user_dashboard_data[user].role == 'admin') {
-          ++this.admin_user;
-        } else if (this.user_dashboard_data[user].role == 'seller') {
-          ++this.seller_user;
-        } else if (this.user_dashboard_data[user].role == 'buyer') {
-          ++this.buyer_user;
-        }
-        ++this.total_user;
-      }
+        this.user_dashboard_data = data;
+        this.totalUser= this.user_dashboard_data.filter((data:any)=>{
+       return  data.type!=='admin'
+      }).length
+
+      this.totalMerchantUser= this.user_dashboard_data.filter((data:any)=>{
+        return  data.type=='merchant'
+       }).length
+
+       this.totalNormalUser= this.user_dashboard_data.filter((data:any)=>{
+        return  data.type=='user'
+       }).length
+
+
+      // for (let user in this.user_dashboard_data) {
+      //   if (this.user_dashboard_data[user].role == 'admin') {
+      //     ++this.admin_user;
+      //   } else if (this.user_dashboard_data[user].role == 'seller') {
+      //     ++this.seller_user;
+      //   } else if (this.user_dashboard_data[user].role == 'buyer') {
+      //     ++this.buyer_user;
+      //   }
+      //   ++this.total_user;
+      // }
     }, error => {
       console.log("My error", error)
     })
   }
 
-  adminProductDashboard() {
-    this.adminService.productDashboardData().subscribe(data => {
-      this.product_dashboard_data = data;
-      console.log(this.product_dashboard_data)
-      for (let status in this.product_dashboard_data) {
-        if (this.product_dashboard_data[status].status == 'publish') {
-          ++this.publish_product;
-        } else if (this.product_dashboard_data[status].status == 'inactive') {
-          ++this.inactive_product;
-        } else if (this.product_dashboard_data[status].status == 'draft') {
-          ++this.draft_product
-        }
-        ++this.total_product;
-      }
-    }, error => {
-      console.log("My error", error)
-    })
-  }
+  // adminProductDashboard() {
+  //   this.adminService.productDashboardData().subscribe(data => {
+  //     this.product_dashboard_data = data;
+  //     console.log(this.product_dashboard_data)
+  //     for (let status in this.product_dashboard_data) {
+  //       if (this.product_dashboard_data[status].status == 'publish') {
+  //         ++this.publish_product;
+  //       } else if (this.product_dashboard_data[status].status == 'inactive') {
+  //         ++this.inactive_product;
+  //       } else if (this.product_dashboard_data[status].status == 'draft') {
+  //         ++this.draft_product
+  //       }
+  //       ++this.total_product;
+  //     }
+  //   }, error => {
+  //     console.log("My error", error)
+  //   })
+  // }
 }

@@ -8,3 +8,12 @@
     }
   }
 }
+
+table, th, td {
+  border:1px solid black;
+}
+
+.edit{
+  color: blue;
+  font-size: 14px;
+}

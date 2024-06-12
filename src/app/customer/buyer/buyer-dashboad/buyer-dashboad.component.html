@@ -1,11 +1,69 @@
-<br>
+<div class="row"  *ngIf="!adduser">
+
+<div class="row"> <div class="adduser" (click)="addUser()"> Add</div>   </div>
+    <table style="width:100%;margin-top: 10px;">
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Status</th>
+            <th> Action</th>
+        </tr>
+        <tr *ngFor="let data of all_ticket">
+          <td>{{data.title}}</td>
+          <td>{{data.description}}</td>
+          <td>{{data.status}}</td>
+            <td> <span class="edit" (click)="editTicket(data)"> Edit </span></td>
+
+        </tr>
+    </table>
+</div>
+
+<div *ngIf="adduser">
+    <div class="header">
+        Add Ticket
+    </div>
+    <form [formGroup]="ticketfrom" (ngSubmit)="addTicket()">
+      <div class="form-group">
+          <label>Merchant ID</label>
+          <!-- <select type="text" class="form-control" formControlName="merchantId" /> -->
+          <select class="form-control" formControlName = "merchantId">
+            <option [value]="option.value" *ngFor="let option of merchantOptions">{{option.displayName}}</option>
+          </select>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <input type="text" class="form-control" formControlName="description" />
+     </div>
+
+      <div class="form-group">
+          <label>Title</label>
+          <input type="text" class="form-control" formControlName="title" />
+      </div>
+      <div class="form-group">
+          <label>Status</label>
+          <!-- <input type="text" class="form-control" formControlName="status" /> -->
+          <select class="form-control" formControlName = "status">
+            <option [value]="option.value" *ngFor="let option of statusOptions">{{option.displayName}}</option>
+          </select>
+      </div>
+  
+      <div class="form-group">
+        <button class="btn btn-primary">Submit</button>
+      </div>
+       
+    </form>
+  </div>
+
+
+<!-- <br>
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Buyer</a></li>
         <li class="breadcrumb-item"><a routerLink="/buyer-dashboard">Products</a></li>
     </ol>
-</nav>
-<div class="row">
+</nav> -->
+<!-- <div class="row">
     <div class="col-sm-4 product" *ngFor="let product of all_products;">
         <div class="card">
             <img src="{{product.uploadPhoto}}" class="card-img-top" alt="{{product.name}}">
@@ -20,4 +78,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '../../services/customer.service';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-seller-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './seller-dashboard.component.html',
   styleUrl: './seller-dashboard.component.css'
 })
@@ -20,24 +21,64 @@ export class SellerDashboardComponent implements OnInit{
   inactive_product:number =0;
   draft_product:number =0;
 
-  constructor(private customerService:CustomerService, private router:Router){}
+  constructor(private formBuilder:FormBuilder, private router:Router, private customerService:CustomerService){
+
+  }
+
+  ticketfrom!:FormGroup;
 
   ngOnInit(): void {
     this.sellerOrderDashboardData();
     this.sellerProductDashboardData();
+    
+    this.ticketfrom = this.formBuilder.group({
+      id: [''],
+      description: [''],
+      title: [''],
+      status:['']
+    });
+
   }
   sellerProductDashboard(){
     this.router.navigateByUrl("/seller/product")
   }
+
+
+  onEdit=false;
+  editTicket(data:any){
+    this.onEdit=true;
+    this.ticketfrom = this.formBuilder.group({
+      id: [data.id],
+      description: [data.description],
+      title: [data.title],
+      status:[data.status]
+    });
+  }
+
+
+  submitForm(){
+
+    this.customerService.getTicketsList().subscribe(data=>{
+      this.order_dashboard_data = data;
+      console.log("Order Dashboard data",this.order_dashboard_data);
+      // this.total_order = Number(this.order_dashboard_data.length);
+      // this.last_order_date = this.order_dashboard_data[this.total_order -1].dateTime;
+    }, error=>{
+      console.log("My error data", error);
+    })
+
+
+  }
+
   sellerOrderDashboard(){
     alert("this option for only WIP candidates")
   }
   sellerOrderDashboardData(){
-    this.customerService.orderDashboardData().subscribe(data=>{
+    this.customerService.getTicketsList().subscribe(data=>{
       this.order_dashboard_data = data;
       console.log("Order Dashboard data",this.order_dashboard_data);
-      this.total_order = Number(this.order_dashboard_data.length);
-      this.last_order_date = this.order_dashboard_data[this.total_order -1].dateTime;
+      // this.total_order = Number(this.order_dashboard_data.length);
+      // this.last_order_date = this.order_dashboard_data[this.total_order -1].dateTime;
     }, error=>{
       console.log("My error data", error);
     })

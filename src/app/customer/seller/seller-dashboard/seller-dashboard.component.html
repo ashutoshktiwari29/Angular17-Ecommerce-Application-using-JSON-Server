@@ -1,11 +1,62 @@
 <br>
 <div class="jumbotron p-4 p-md-4 text-white rounded bg-dark">
   <div class="col-md-12 px-0 text-center">
-    <h3 class="display-4 font-italic">Welcome To Seller Dashboard</h3>
-    <p class="lead mb-0">Seller Can manage product and Order details</p>
+    <h3 class="display-4 font-italic">Welcome To Merchant Dashboard</h3>
+    <p class="lead mb-0">Merchant can manage tickets</p>
   </div>
 </div>
+
+
 <div class="row mb-2">
+
+  <table style="width:100%;margin-top: 10px;" *ngIf="!onEdit">
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th> Action</th>
+      </tr>
+      <tr *ngFor="let data of order_dashboard_data">
+        <td>{{data.description}}</td>
+        <td>{{data.status}}</td>
+        <td>{{data.title}}</td>
+        <td> <span class="edit" (click)="editTicket(data)"> Edit </span></td>
+      </tr>
+  </table>
+
+
+  <div *ngIf="onEdit">
+    <form [formGroup]="ticketfrom">
+      <div class="form-group">
+          <label>Description</label>
+          <input type="text" class="form-control" formControlName="description" />
+      </div>
+      <div class="form-group">
+          <label>Title</label>
+          <input type="text" class="form-control" formControlName="title" />
+      </div>
+      <div class="form-group">
+          <label>Status</label>
+          <input type="text" class="form-control" formControlName="status" />
+      </div>
+  
+      <div class="form-group">
+        <button class="btn btn-primary">Submit</button>
+        <button class="btn btn-primary" (click)="onEdit=false">Cancel</button>
+      </div>
+       
+    </form>
+  </div>
+
+ 
+
+
+
+
+</div>
+
+
+<!-- <div class="row mb-2">
   <div class="col-md-6" (click)="sellerOrderDashboard()">
     <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow sm h-md-250 position-relative">
       <div class="col p-4 d-flex flex-column position-static">
@@ -71,4 +122,4 @@
     </div>
 
   </div>
-</div>
+</div> -->

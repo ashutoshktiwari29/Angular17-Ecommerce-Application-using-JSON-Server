@@ -18,6 +18,10 @@ export const routes: Routes = [
   { path: "home", component: HomeComponent },
   { path: "my-profile", component: UserProfileComponent },
   { path: "contact-us", component: ContactUsComponent },
+  {path:  "merchant", component:SellerDashboardComponent},
+  // { path: "admin-dashboard", component: AdminDashboardComponent },
+  {path:  "user",component:BuyerDashboadComponent},
+  { path: "admin-dashboard", component: AdminDashboardComponent },
   //admin
   {
     path: '', canActivate:[AdminAuthGuardLogin] ,children: [
